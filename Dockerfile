@@ -1,5 +1,4 @@
-FROM centos:7
-MAINTAINER Ira W. Snyder <isnyder@lcogt.net>
+FROM ubuntu:22.04
 
 ENTRYPOINT [ "/init" ]
 
@@ -9,16 +8,18 @@ EXPOSE 1812/udp
 # RADIUS Accounting Messages
 EXPOSE 1813/udp
 
+RUN apt-get update
+
 # Install freeradius with ldap support
-RUN yum -y install freeradius-ldap \
-        && yum -y update \
-        && yum -y clean all
+RUN apt-get install -y freeradius curl
 
 # Install tini init
-ENV TINI_VERSION v0.10.0
+ENV TINI_VERSION v0.19.0
 RUN curl -L https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini > /usr/bin/tini \
         && chmod +x /usr/bin/tini
 
 # Copy our configuration
-COPY ldap /etc/raddb/mods-available/
+COPY ldap /etc/freeradius/3.0/mods-available/
 COPY init /
+
+# CMD ["/bin/bash"]
