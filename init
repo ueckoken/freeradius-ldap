@@ -92,4 +92,5 @@ EOF
 done
 
 # run radiusd
-exec /usr/bin/tini -- /usr/sbin/freeradius $RADIUSD_ARGS
+# exec /usr/bin/tini -- /usr/sbin/freeradius $RADIUSD_ARGS
+/usr/sbin/freeradius $RADIUSD_ARGS
