@@ -38,7 +38,7 @@ for i in "${RADIUS_CLIENT_CREDENTIALS_ARRAY[@]}"; do
     SECRET=`echo $i | cut -f 3 -d :`
     IP=`echo $CLIENT | cut -f 1 -d /`
     MASK=`echo $CLIENT | cut -f 2 -d /`
-    cat >> ./clients.conf << EOF
+    cat >> /etc/freeradius/3.0/clients.conf << EOF
 client $CLIENT {
     ipaddr = $IP
     netmask = $MASK
