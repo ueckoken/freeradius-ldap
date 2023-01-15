@@ -36,7 +36,7 @@ for i in "${RADIUS_CLIENT_CREDENTIALS_ARRAY[@]}"; do
     SHORTNAME=`echo $i | cut -f 1 -d :`
     CLIENT=`echo $i | cut -f 2 -d :`
     SECRET=`echo $i | cut -f 3 -d :`
-    cat >> /etc/freeradius/3.0/client.conf << EOF
+    cat >> /etc/freeradius/3.0/clients.conf << EOF
 client $CLIENT {
     secret = $SECRET
     shortname = $SHORTNAME
