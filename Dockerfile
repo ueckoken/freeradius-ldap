@@ -13,13 +13,12 @@ RUN apt-get update
 # Install freeradius with ldap support
 RUN apt-get install -y freeradius freeradius-common freeradius-krb5 freeradius-ldap freeradius-utils
 
-# # Install tini init
-# ENV TINI_VERSION v0.19.0
-# RUN curl -L https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini > /usr/bin/tini \
-#         && chmod +x /usr/bin/tini
-
 # Copy our configuration
-COPY ldap /etc/freeradius/3.0/mods-available/
+COPY config/clients.conf /etc/freeradius/3.0/
+COPY config/ldap /etc/freeradius/3.0/mods-available/
+COPY config/default /etc/freeradius/3.0/sites-available/
+COPY config/inner-tunnel /etc/freeradius/3.0/sites-available/
+
 COPY init /
 
 # CMD ["/bin/bash"]

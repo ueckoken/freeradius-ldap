@@ -1,0 +1,115 @@
+server { 
+        listen {
+                type = auth
+                ipaddr = *
+                port=1812
+                limit {
+                max_connections = 16
+                lifetime = 0
+                idle_timeout = 30
+                }
+        }
+
+        listen {
+                ipaddr = *
+                port = 0
+                type = acct
+                limit {
+                }
+        }
+        listen {
+                type = auth
+                ipv6addr = ::   # any.  ::1 == localhost
+                port=1812
+                limit {
+                max_connections = 16
+                lifetime = 0
+                idle_timeout = 30
+                }
+        }
+        listen {
+                ipv6addr = ::
+                port = 0
+                type = acct
+                limit {
+                }
+        }
+        authorize {
+                preprocess
+                chap
+                mschap
+                digest
+                suffix
+        #       ntdomain
+                eap {
+                        ok = return
+                }
+        #       files
+                if ("%{request:User-Name}" =~ /^(.*)@(.*)/) {
+                        update request {
+                                Stripped-User-Name := "%{1}"
+                                        Realm := "%{2}"
+                        }
+                }
+                ldap
+                expiration
+                logintime
+                pap
+        }
+
+        authenticate {
+                Auth-Type PAP {
+                        pap
+                }
+                Auth-Type CHAP {
+                        chap
+                }
+                Auth-Type MS-CHAP {
+                        mschap
+                }
+                digest
+                Auth-Type LDAP {
+                        ldap
+                }
+                eap
+        }
+
+        preacct {
+                preprocess
+                acct_unique
+        #       IPASS
+                suffix
+        #       ntdomain
+                files
+        }
+
+        #
+        #  Accounting.  Log the accounting data.
+        #
+        accounting {
+                detail
+                unix
+                radutmp
+                exec
+                attr_filter.accounting_response
+        }
+
+        session {
+                radutmp
+        }
+
+        post-auth {
+        #       ldap
+                exec
+                Post-Auth-Type REJECT {
+                        attr_filter.access_reject
+                }
+        }
+
+        pre-proxy {
+        }
+
+        post-proxy {
+                eap
+        }
+}
