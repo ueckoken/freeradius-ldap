@@ -33,6 +33,6 @@ jobs:
           file: ./Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ghcr.io/ueckoken/freeradius-ldap:latest
+          tags: ghcr.io/ueckoken/freeradius-ldap:${{ env.IMAGE_TAG }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
