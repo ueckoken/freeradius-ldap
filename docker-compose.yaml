@@ -1,7 +1,7 @@
 services:
   radius:
-    build: .
-    # image: ghcr.io/ueckoken/freeradius-ldap:latest
+    # build: .
+    image: ghcr.io/ueckoken/freeradius-ldap:latest
     ports:
       - "1812:1812/udp"
       - "1813:1813/udp"
