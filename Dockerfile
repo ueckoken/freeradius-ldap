@@ -19,6 +19,11 @@ COPY config/ldap /etc/freeradius/3.0/mods-available/
 COPY config/default /etc/freeradius/3.0/sites-available/
 COPY config/inner-tunnel /etc/freeradius/3.0/sites-available/
 
+RUN ln -s /etc/freeradius/3.0/mods-available/ldap /etc/freeradius/3.0/mods-enabled/ldap
+# Create Certificate
+RUN cd /etc/freeradius/3.0/certs && make
+
 COPY init /
 
 # CMD ["/bin/bash"]
+# CMD ["/usr/sbin/freeradius", "-x", "-f", "-l stdout"]

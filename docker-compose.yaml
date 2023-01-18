@@ -1,7 +1,7 @@
 services:
   radius:
-    # build: .
-    image: ghcr.io/ueckoken/freeradius-ldap:latest
+    build: .
+    # image: ghcr.io/ueckoken/freeradius-ldap:latest
     ports:
       - "1812:1812/udp"
       - "1813:1813/udp"
@@ -12,6 +12,5 @@ services:
       - "LDAP_BASEDN=dc=ldap,dc=ueckoken,dc=club"
       - "LDAP_USER_BASEDN=ou=people,dc=ldap,dc=ueckoken,dc=club"
       - "LDAP_GROUP_BASEDN=ou=group,dc=ldap,dc=ueckoken,dc=club"
-      - "RADIUS_CLIENT_CREDENTIALS=unifi:192.168.12.0/24:testing123,add:192.168.4.0/24:testing123"
-    mem_limit: "1g"
-    restart: "always"
+      - "RADIUS_CLIENT_CREDENTIALS=ineer:172.0.0.0/8:testing123,koken-lan:192.168.0.0/23:testing123,koken-lan2:192.168.4.0/24:testing123,koken-lan3:192.168.12.0/24:testing123"
+    tty: true

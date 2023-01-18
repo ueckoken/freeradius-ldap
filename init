@@ -2,7 +2,6 @@
 # vim: set ts=4 sts=4 sw=4 et:
 
 LDAP_HOST="${LDAP_HOST:-ldap1.example.com ldap2.example.com}"
-LDAP_PORT="${LDAP_PORT:-389}"
 LDAP_USER="${LDAP_USER:-cn=admin,dc=example,dc=com}"
 LDAP_PASS="${LDAP_PASS:-password}"
 LDAP_BASEDN="${LDAP_BASEDN:-dc=example,dc=com}"
@@ -12,7 +11,7 @@ LDAP_GROUP_BASEDN="${LDAP_GROUP_BASEDN:-ou=Groups,dc=example,dc=com}"
 RADIUS_CLIENT_CREDENTIALS="${RADIUS_CLIENT_CREDENTIALS:-}"
 
 # to turn on debugging, use "-x -f -l stdout"
-RADIUSD_ARGS="${RADIUSD_ARGS:--f -l stdout}"
+RADIUSD_ARGS="${RADIUSD_ARGS:--X -f -l stdout}"
 
 ldap_subst() {
     sed -i -e "s/${1}/${2}/g" /etc/freeradius/3.0/mods-available/ldap
@@ -20,15 +19,11 @@ ldap_subst() {
 
 # substitute variables into LDAP configuration file
 ldap_subst "@LDAP_HOST@" "${LDAP_HOST}"
-ldap_subst "@LDAP_PORT@" "${LDAP_PORT}"
 ldap_subst "@LDAP_USER@" "${LDAP_USER}"
 ldap_subst "@LDAP_PASS@" "${LDAP_PASS}"
 ldap_subst "@LDAP_BASEDN@" "${LDAP_BASEDN}"
 ldap_subst "@LDAP_USER_BASEDN@" "${LDAP_USER_BASEDN}"
 ldap_subst "@LDAP_GROUP_BASEDN@" "${LDAP_GROUP_BASEDN}"
-
-# enable ldap
-ln -s /etc/freeradius/3.0/mods-available/ldap /etc/freeradius/3.0/mods-enabled/ldap
 
 # setup clients
 IFS=$',' read -ra RADIUS_CLIENT_CREDENTIALS_ARRAY <<< "$RADIUS_CLIENT_CREDENTIALS"
@@ -36,17 +31,15 @@ for i in "${RADIUS_CLIENT_CREDENTIALS_ARRAY[@]}"; do
     SHORTNAME=`echo $i | cut -f 1 -d :`
     CLIENT=`echo $i | cut -f 2 -d :`
     SECRET=`echo $i | cut -f 3 -d :`
-    IP=`echo $CLIENT | cut -f 1 -d /`
-    MASK=`echo $CLIENT | cut -f 2 -d /`
     cat >> /etc/freeradius/3.0/clients.conf << EOF
 client $SHORTNAME {
-    ipaddr = $IP
-    netmask = $MASK
+    ipaddr = $CLIENT
     secret = $SECRET
-    shortname = $SHORTNAME
+    nas_type = other
 }
 EOF
 done
 
 # run radiusd
-/usr/sbin/freeradius $RADIUSD_ARGS
+freeradius $RADIUSD_ARGS
+# /bin/bash
