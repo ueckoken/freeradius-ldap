@@ -299,7 +299,7 @@ ldap {
 		filter = '(objectClass=posixGroup)'
 
 		# Search scope, may be 'base', 'one', sub' or 'children'
-#		scope = 'sub'
+		scope = 'sub'
 
 		#  Attribute that uniquely identifies a group.
 		#  Is used when converting group DNs to group
