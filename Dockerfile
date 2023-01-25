@@ -18,6 +18,7 @@ COPY config/clients.conf /etc/freeradius/3.0/
 COPY config/ldap /etc/freeradius/3.0/mods-available/
 COPY config/default /etc/freeradius/3.0/sites-available/
 COPY config/inner-tunnel /etc/freeradius/3.0/sites-available/
+COPY config/users /etc/freeradius/3.0/
 
 RUN ln -s /etc/freeradius/3.0/mods-available/ldap /etc/freeradius/3.0/mods-enabled/ldap
 # Create Certificate
