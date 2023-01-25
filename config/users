@@ -1,0 +1,4 @@
+DEFAULT Ldap-Group == "cn=member,ou=group,dc=ldap,dc=ueckoken,dc=club"
+        Tunnel-Medium-Type = 6,
+        Tunnel-Private-Group-ID = "111",
+        Tunnel-Type = VLAN
