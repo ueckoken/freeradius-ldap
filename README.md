@@ -1,6 +1,6 @@
 # freeradius-ldap
 
-Koken統合認証に仕様しているfreeradiusの独自イメージです
+Koken統合認証に使用しているfreeradiusの独自イメージです
 [irasnyd/freeradius-ldap](https://github.com/irasnyd/freeradius-ldap)をBaseとして使用しているbase imageとfreeradiusのversionに修正を加えた上で、Kokenの環境に応じた設定を追加しています。
 
 # 環境変数
