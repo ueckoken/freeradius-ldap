@@ -8,7 +8,7 @@ services:
     environment:
       - "LDAP_HOST=ldap.ueckoken.club"
       - "LDAP_USER=cn=admin,dc=ldap,dc=ueckoken,dc=club"
-      - "LDAP_PASS=k0Ken-11235"
+      - "LDAP_PASS=******"
       - "LDAP_BASEDN=dc=ldap,dc=ueckoken,dc=club"
       - "LDAP_USER_BASEDN=ou=people,dc=ldap,dc=ueckoken,dc=club"
       - "LDAP_GROUP_BASEDN=ou=group,dc=ldap,dc=ueckoken,dc=club"
