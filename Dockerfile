@@ -8,10 +8,14 @@ EXPOSE 1812/udp
 # RADIUS Accounting Messages
 EXPOSE 1813/udp
 
-RUN apt-get update
-
 # Install freeradius with ldap support
-RUN apt-get install -y freeradius freeradius-common freeradius-krb5 freeradius-ldap freeradius-utils
+RUN apt-get update && apt-get install -y \
+  freeradius \
+  freeradius-common \
+  freeradius-krb5 \
+  freeradius-ldap \
+  freeradius-utils \
+  && rm -rf /var/lib/apt/lists/*
 
 # Copy our configuration
 COPY config/clients.conf /etc/freeradius/3.0/
